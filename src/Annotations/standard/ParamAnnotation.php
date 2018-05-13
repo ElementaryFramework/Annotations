@@ -59,7 +59,7 @@ class ParamAnnotation extends Annotation implements IAnnotationParser, IAnnotati
      *
      * @return array ['type', 'name']
      */
-    public static function parseAnnotation($value)
+    public static function parseAnnotation(string $value): array
     {
         $parts = \explode(' ', \trim($value), 3);
 
@@ -85,11 +85,11 @@ class ParamAnnotation extends Annotation implements IAnnotationParser, IAnnotati
         parent::initAnnotation($properties);
 
         if (!isset($this->type)) {
-            throw new AnnotationException('ParamAnnotation requires a type property');
+            throw new AnnotationException(self::class . ' requires a type property');
         }
 
         if (!isset($this->name)) {
-            throw new AnnotationException('ParamAnnotation requires a name property');
+            throw new AnnotationException(self::class . ' requires a name property');
         }
 
         $this->type = $this->file->resolveType($this->type);

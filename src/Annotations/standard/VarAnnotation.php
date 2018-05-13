@@ -73,7 +73,7 @@ class VarAnnotation extends Annotation implements IAnnotationParser, IAnnotation
      * @param string $value
      * @return array
      */
-    public static function parseAnnotation($value)
+    public static function parseAnnotation(string $value): array
     {
         $parts = \explode(' ', \trim($value), 2);
 
@@ -82,6 +82,10 @@ class VarAnnotation extends Annotation implements IAnnotationParser, IAnnotation
 
     /**
      * Initialize the annotation.
+     *
+     * @param array $properties The array of annotation properties.
+     *
+     * @throws AnnotationException
      */
     public function initAnnotation(array $properties)
     {
@@ -90,7 +94,7 @@ class VarAnnotation extends Annotation implements IAnnotationParser, IAnnotation
         parent::initAnnotation($properties);
 
         if (!isset($this->type)) {
-            throw new AnnotationException(basename(__CLASS__).' requires a type property');
+            throw new AnnotationException(self::class . ' requires a type property');
         }
 
         $this->type = $this->file->resolveType($this->type);

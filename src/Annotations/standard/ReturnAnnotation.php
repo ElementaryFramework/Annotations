@@ -52,7 +52,7 @@ class ReturnAnnotation extends Annotation implements IAnnotationParser, IAnnotat
      * @param string $value
      * @return array
      */
-    public static function parseAnnotation($value)
+    public static function parseAnnotation(string $value): array
     {
         $parts = \explode(' ', \trim($value), 2);
 
@@ -61,6 +61,10 @@ class ReturnAnnotation extends Annotation implements IAnnotationParser, IAnnotat
 
     /**
      * Initialize the annotation.
+     *
+     * @param array $properties The array of annotation properties.
+     *
+     * @throws AnnotationException
      */
     public function initAnnotation(array $properties)
     {
@@ -69,7 +73,7 @@ class ReturnAnnotation extends Annotation implements IAnnotationParser, IAnnotat
         parent::initAnnotation($properties);
 
         if (!isset($this->type)) {
-            throw new AnnotationException('ReturnAnnotation requires a type property');
+            throw new AnnotationException(self::class . ' requires a type property');
         }
 
         $this->type = $this->file->resolveType($this->type);

@@ -71,7 +71,7 @@ class PropertyAnnotation extends Annotation implements IAnnotationParser, IAnnot
      *
      * @return array ['type', 'name'] or ['type', 'name', 'description'] if description is set.
      */
-    public static function parseAnnotation($value)
+    public static function parseAnnotation(string $value): array
     {
         $parts = \explode(' ', \trim($value), 3);
 
@@ -103,11 +103,11 @@ class PropertyAnnotation extends Annotation implements IAnnotationParser, IAnnot
         parent::initAnnotation($properties);
 
         if (!isset($this->type)) {
-            throw new AnnotationException(self::class.' requires a type property');
+            throw new AnnotationException(self::class . ' requires a type property');
         }
 
         if (!isset($this->name)) {
-            throw new AnnotationException(self::class.' requires a name property');
+            throw new AnnotationException(self::class . ' requires a name property');
         }
 
         $this->type = $this->file->resolveType($this->type);

@@ -34,5 +34,5 @@ interface IAnnotationParser
      *
      * @return array An array of Annotation properties.
      */
-    public static function parseAnnotation($value);
+    public static function parseAnnotation(string $value): array;
 }
