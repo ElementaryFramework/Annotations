@@ -32,7 +32,7 @@ use ElementaryFramework\Annotations\IAnnotationParser;
 /**
  * Defines a magic/virtual property and it's type.
  *
- * @usage('class'=>true, 'inherited'=>true)
+ * @usage('class'=>true, 'inherited'=>true, 'multiple' => true)
  */
 class PropertyAnnotation extends Annotation implements IAnnotationParser, IAnnotationFileAware
 {
