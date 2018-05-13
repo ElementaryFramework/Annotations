@@ -77,7 +77,7 @@ class AnnotationFile
      * @param string $path absolute path to php source-file
      * @param array $data annotation data (as provided by AnnotationParser)
      */
-    public function __construct($path, array $data)
+    public function __construct(string $path, array $data)
     {
         $this->path = $path;
         $this->data = $data;
@@ -98,7 +98,7 @@ class AnnotationFile
      *
      * @return string[] of fully-qualified class name, method name
      */
-    public function resolveMethod($raw_method)
+    public function resolveMethod(string $raw_method): array
     {
         list($class, $method) = \explode('::', $raw_method, 2);
         return array(\ltrim($this->resolveType($class), '\\'), $method);
@@ -112,7 +112,7 @@ class AnnotationFile
      * @return string
      * @see http://www.phpdoc.org/docs/latest/for-users/phpdoc/types.html#abnf
      */
-    public function resolveType($raw_type)
+    public function resolveType(string $raw_type): string
     {
         $type_parts = \explode('[]', $raw_type, 2);
         $type = $type_parts[0];
@@ -135,7 +135,7 @@ class AnnotationFile
      *
      * @return boolean
      */
-    protected function isSimple($type)
+    protected function isSimple(string $type): bool
     {
         return \in_array(\strtolower($type), self::$simpleTypes);
     }

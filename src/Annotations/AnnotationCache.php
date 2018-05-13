@@ -22,6 +22,8 @@
 
 namespace ElementaryFramework\Annotations;
 
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
+
 /**
  * This class is responsible for storing and updating parsed annotation-data in PHP files.
  */
@@ -48,7 +50,7 @@ class AnnotationCache
      * @param string $root absolute path to the root-folder where cache-files will be stored
      * @param int $fileMode file creation mode; defaults to 0777
      */
-    public function __construct($root, $fileMode = 0777)
+    public function __construct(string $root, int $fileMode = 0777)
     {
         $this->_root = $root;
         $this->_fileMode = $fileMode;
@@ -61,7 +63,7 @@ class AnnotationCache
      *
      * @return bool true if data with the given key has been stored; otherwise false
      */
-    public function exists($key)
+    public function exists(string $key): bool
     {
         return \file_exists($this->_getPath($key));
     }
@@ -69,11 +71,12 @@ class AnnotationCache
     /**
      * Caches the given data with the given key.
      *
-     * @param string $key cache key
-     * @param array $code the source-code to be cached
+     * @param string $key  The cache key.
+     * @param string $code The source-code to be cached
+     *
      * @throws AnnotationException if file could not be written
      */
-    public function store($key, $code)
+    public function store(string $key, string $code)
     {
         $path = $this->_getPath($key);
 
@@ -91,40 +94,45 @@ class AnnotationCache
     /**
      * Fetches data stored for the given key.
      *
-     * @param string $key cache key
-     * @return mixed the cached data
+     * @param string $key The cache key.
+     *
+     * @return mixed The cached data.
      */
-    public function fetch($key)
+    public function fetch(string $key)
     {
-        return include($this->_getPath($key));
+        return include $this->_getPath($key);
     }
 
     /**
      * Returns the timestamp of the last cache update for the given key.
      *
-     * @param string $key cache key
-     * @return int unix timestamp
+     * @param string $key The cache key.
+     *
+     * @return int unix timestamp.
      */
-    public function getTimestamp($key)
+    public function getTimestamp(string $key): int
     {
         return \filemtime($this->_getPath($key));
     }
 
     /**
-     * Maps a cache-key to the absolute path of a PHP file
+     * Maps a cache-key to the absolute path of a PHP file.
      *
-     * @param string $key cache key
-     * @return string absolute path of the PHP file
+     * @param string $key The cache key.
+     *
+     * @return string The absolute path of the PHP file.
      */
-    private function _getPath($key)
+    private function _getPath(string $key): string
     {
         return $this->_root . DIRECTORY_SEPARATOR . $key . '.annotations.php';
     }
 
     /**
-     * @return string absolute path of the folder where cache files are created
+     * Returns absolute path of the folder where cache files are created.
+     *
+     * @return string
      */
-    public function getRoot()
+    public function getRoot(): string
     {
         return $this->_root;
     }

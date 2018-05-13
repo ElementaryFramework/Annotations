@@ -22,11 +22,11 @@
 
 namespace ElementaryFramework\Annotations\Standard;
 
-use ElementaryFramework\Annotations\AnnotationException;
+use ElementaryFramework\Annotations\Annotation;
 use ElementaryFramework\Annotations\AnnotationFile;
 use ElementaryFramework\Annotations\IAnnotationFileAware;
 use ElementaryFramework\Annotations\IAnnotationParser;
-use ElementaryFramework\Annotations\Annotation;
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
 
 /**
  * Defines the return-type of a function or method

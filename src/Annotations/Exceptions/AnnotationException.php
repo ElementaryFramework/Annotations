@@ -20,7 +20,7 @@
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace ElementaryFramework\Annotations;
+namespace ElementaryFramework\Annotations\Exceptions;
 
 /**
  * This exception is thrown by various classes in the annotations package,

@@ -63,8 +63,14 @@ abstract class Annotations
      * Returns the UsageAnnotation for the annotation with the given class-name.
      *
      * @see AnnotationManager::getUsage()
+     *
+     * @param string $class
+     *
+     * @return UsageAnnotation
+     *
+     * @throws Exceptions\AnnotationException
      */
-    public static function getUsage($class)
+    public static function getUsage(string $class): UsageAnnotation
     {
         return self::getManager()->getUsage($class);
     }
@@ -73,8 +79,15 @@ abstract class Annotations
      * Inspects class Annotations
      *
      * @see AnnotationManager::getClassAnnotations()
+     *
+     * @param string|object $class
+     * @param string|null $type
+     *
+     * @return array|Annotation[]
+     *
+     * @throws Exceptions\AnnotationException
      */
-    public static function ofClass($class, $type = null)
+    public static function ofClass($class, string $type = null): array
     {
         return self::getManager()->getClassAnnotations($class, $type);
     }
@@ -83,8 +96,16 @@ abstract class Annotations
      * Inspects method Annotations
      *
      * @see AnnotationManager::getMethodAnnotations()
+     *
+     * @param $class
+     * @param string|null $method
+     * @param string|null $type
+     *
+     * @return array
+     *
+     * @throws Exceptions\AnnotationException
      */
-    public static function ofMethod($class, $method = null, $type = null)
+    public static function ofMethod($class, string $method = null, string $type = null): array
     {
         return self::getManager()->getMethodAnnotations($class, $method, $type);
     }
@@ -93,8 +114,16 @@ abstract class Annotations
      * Inspects property Annotations
      *
      * @see AnnotationManager::getPropertyAnnotations()
+     *
+     * @param $class
+     * @param string|null $property
+     * @param string|null $type
+     *
+     * @return array|IAnnotation[]
+     *
+     * @throws Exceptions\AnnotationException
      */
-    public static function ofProperty($class, $property = null, $type = null)
+    public static function ofProperty($class, string $property = null, string $type = null): array
     {
         return self::getManager()->getPropertyAnnotations($class, $property, $type);
     }

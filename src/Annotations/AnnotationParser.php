@@ -22,6 +22,8 @@
 
 namespace ElementaryFramework\Annotations;
 
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
+
 if (!defined('T_TRAIT')) {
     define(__NAMESPACE__ . '\\T_TRAIT', -2);
 }
@@ -80,9 +82,10 @@ class AnnotationParser
      * @param string $path The path of the source file being parsed (for error-reporting only)
      *
      * @return string PHP source code to construct the Annotations of the given PHP source code
+     *
      * @throws AnnotationException if orphaned Annotations are found at the end of the file
      */
-    public function parse($source, $path)
+    public function parse(string $source, string $path): string
     {
         $index = array();
         $traitMethodOverrides = array();
@@ -328,9 +331,12 @@ class AnnotationParser
      * @param string $path The full path of a PHP source code file
      *
      * @return string PHP source code to construct the annotations of the given PHP source code
+     *
      * @see AttributeParser::parse()
+     *
+     * @throws AnnotationException
      */
-    public function parseFile($path)
+    public function parseFile(string $path): string
     {
         return $this->parse(\file_get_contents($path), $path);
     }
@@ -339,11 +345,12 @@ class AnnotationParser
      * Scan a PHP source code comment for annotation data
      *
      * @param string $str PHP comment containing annotations
+     *
      * @return array PHP source code snippets with annotation initialization arrays
      *
      * @throws AnnotationException for various run-time errors
      */
-    protected function findAnnotations($str)
+    protected function findAnnotations(string $str): array
     {
         $str = \trim(\preg_replace('/^[\/\*\# \t]+/m', '', $str)) . "\n";
         $str = \str_replace("\r\n", "\n", $str);

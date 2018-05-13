@@ -22,6 +22,8 @@
 
 namespace ElementaryFramework\Annotations;
 
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
+
 /**
  * This class manages the retrieval of Annotations from source code files
  */
@@ -75,14 +77,14 @@ class AnnotationManager
         'internal'       => false,
         'license'        => false,
         'link'           => false,
-        'method'         => 'ElementaryFramework\Annotations\standard\MethodAnnotation',
+        'method'         => 'ElementaryFramework\Annotations\Standard\MethodAnnotation',
         'name'           => false,
         'package'        => false,
-        'param'          => 'ElementaryFramework\Annotations\standard\ParamAnnotation',
-        'property'       => 'ElementaryFramework\Annotations\standard\PropertyAnnotation',
-        'property-read'  => 'ElementaryFramework\Annotations\standard\PropertyReadAnnotation',
-        'property-write' => 'ElementaryFramework\Annotations\standard\PropertyWriteAnnotation',
-        'return'         => 'ElementaryFramework\Annotations\standard\ReturnAnnotation',
+        'param'          => 'ElementaryFramework\Annotations\Standard\ParamAnnotation',
+        'property'       => 'ElementaryFramework\Annotations\Standard\PropertyAnnotation',
+        'property-read'  => 'ElementaryFramework\Annotations\Standard\PropertyReadAnnotation',
+        'property-write' => 'ElementaryFramework\Annotations\Standard\PropertyWriteAnnotation',
+        'return'         => 'ElementaryFramework\Annotations\Standard\ReturnAnnotation',
         'see'            => false,
         'since'          => false,
         'source'         => false,
@@ -92,11 +94,11 @@ class AnnotationManager
         'todo'           => false,
         'tutorial'       => false,
         'throws'         => false,
-        'type'           => 'ElementaryFramework\Annotations\standard\TypeAnnotation',
+        'type'           => 'ElementaryFramework\Annotations\Standard\TypeAnnotation',
         'usage'          => 'ElementaryFramework\Annotations\UsageAnnotation',
         'stop'           => 'ElementaryFramework\Annotations\StopAnnotation',
         'uses'           => false,
-        'var'            => 'ElementaryFramework\Annotations\standard\VarAnnotation',
+        'var'            => 'ElementaryFramework\Annotations\Standard\VarAnnotation',
         'version'        => false,
     );
 
@@ -155,7 +157,7 @@ class AnnotationManager
      *
      * @param string $cacheSeed only needed if using more than one AnnotationManager in the same application
      */
-    public function __construct($cacheSeed = '')
+    public function __construct(string $cacheSeed = '')
     {
         $this->_cacheSeed = $cacheSeed;
         $this->_usageAnnotation = new UsageAnnotation();
@@ -185,6 +187,7 @@ class AnnotationManager
      * Member-names in the returned array have the following format: Class, Class::method or Class::$member
      *
      * @param string $path the path of the source-code file from which to obtain annotation-data.
+     *
      * @return AnnotationFile
      *
      * @throws AnnotationException if cache is not configured
@@ -192,7 +195,7 @@ class AnnotationManager
      * @see $files
      * @see $cache
      */
-    protected function getAnnotationFile($path)
+    protected function getAnnotationFile(string $path): AnnotationFile
     {
         if (!isset($this->files[$path])) {
             if ($this->cache === null) {
@@ -231,7 +234,7 @@ class AnnotationManager
      *
      * @see $registry
      */
-    public function resolveName($name)
+    public function resolveName(string $name)
     {
         if (\strpos($name, '\\') !== false) {
             return $name . $this->suffix; // annotation class-name is fully qualified
@@ -258,9 +261,10 @@ class AnnotationManager
      * @param string $member_name Optional member name, e.g. "method" or "$property"
      *
      * @return IAnnotation[] array of IAnnotation objects for the given class/member/name
+     *
      * @throws AnnotationException for bad annotations
      */
-    protected function getAnnotations($class_name, $member_type = self::MEMBER_CLASS, $member_name = null)
+    protected function getAnnotations(string $class_name, string $member_type = self::MEMBER_CLASS, string $member_name = null): array
     {
         $key = $class_name . ($member_name ? '::' . $member_name : '');
 
@@ -366,7 +370,7 @@ class AnnotationManager
      *
      * @return bool whether class or trait has the specified member
      */
-    protected function classHasMember($className, $memberType, $memberName)
+    protected function classHasMember(string $className, string $memberType, string $memberName): bool
     {
         if ($memberType === self::MEMBER_METHOD) {
             return \method_exists($className, $memberName);
@@ -387,7 +391,7 @@ class AnnotationManager
      *
      * @throws AnnotationException if a constraint is violated.
      */
-    protected function applyConstraints(array $annotations, $member)
+    protected function applyConstraints(array $annotations, string $member): array
     {
         $result = array();
         $annotationCount = \count($annotations);
@@ -431,7 +435,7 @@ class AnnotationManager
      *
      * @return array The filtered array of annotation objects - may return an empty array
      */
-    protected function filterAnnotations(array $annotations, $type)
+    protected function filterAnnotations(array $annotations, string $type): array
     {
         if (\substr($type, 0, 1) === '@') {
             $type = $this->resolveName(\substr($type, 1));
@@ -456,10 +460,12 @@ class AnnotationManager
      * Obtain the UsageAnnotation for a given Annotation class
      *
      * @param string $class The Annotation type class-name
+     *
      * @return UsageAnnotation
+     *
      * @throws AnnotationException if the given class-name is invalid; if the annotation-type has no defined usage
      */
-    public function getUsage($class)
+    public function getUsage(string $class): UsageAnnotation
     {
         if ($class === $this->registry['usage']) {
             return $this->_usageAnnotation;
@@ -496,9 +502,10 @@ class AnnotationManager
      *                     Alternatively, prefixing with "@" invokes name-resolution (allowing you to query by annotation name.)
      *
      * @return Annotation[] Annotation instances
+     *
      * @throws AnnotationException if a given class-name is undefined
      */
-    public function getClassAnnotations($class, $type = null)
+    public function getClassAnnotations($class, string $type = null): array
     {
         if ($class instanceof \ReflectionClass) {
             $class = $class->getName();
@@ -534,9 +541,10 @@ class AnnotationManager
      *                     Alternatively, prefixing with "@" invokes name-resolution (allowing you to query by annotation name.)
      *
      * @throws AnnotationException for undefined method or class-name
+     *
      * @return IAnnotation[] list of Annotation objects
      */
-    public function getMethodAnnotations($class, $method = null, $type = null)
+    public function getMethodAnnotations($class, string $method = null, string $type = null): array
     {
         if ($class instanceof \ReflectionClass) {
             $class = $class->getName();
@@ -576,7 +584,7 @@ class AnnotationManager
      *
      * @throws AnnotationException for undefined class-name
      */
-    public function getPropertyAnnotations($class, $property = null, $type = null)
+    public function getPropertyAnnotations($class, string $property = null, string $type = null): array
     {
         if ($class instanceof \ReflectionClass) {
             $class = $class->getName();

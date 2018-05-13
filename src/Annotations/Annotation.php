@@ -22,6 +22,8 @@
 
 namespace ElementaryFramework\Annotations;
 
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
+
 /**
  * A general-purpose base class for annotations.
  *
@@ -32,16 +34,25 @@ abstract class Annotation implements IAnnotation
 {
     /**
      * Insulation against read-access to undeclared properties
+     *
+     * @param string $name The property name.
+     *
+     * @throws AnnotationException
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         throw new AnnotationException(\get_class($this) . "::\${$name} is not a valid property name");
     }
 
     /**
      * Insulation against write-access to undeclared properties
+     *
+     * @param string $name  The property name.
+     * @param mixed  $value The value to set.
+     *
+     * @throws AnnotationException
      */
-    public function __set($name, $value)
+    public function __set(string $name, $value)
     {
         throw new AnnotationException(\get_class($this) . "::\${$name} is not a valid property name");
     }
@@ -64,6 +75,9 @@ abstract class Annotation implements IAnnotation
 
     /**
      * Initializes this annotation instance.
+     *
+     * @param array $properties The array of annotation properties.
+     *
      * @see IAnnotation
      */
     public function initAnnotation(array $properties)
