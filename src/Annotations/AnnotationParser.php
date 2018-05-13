@@ -1,17 +1,26 @@
 <?php
 
 /**
- * This file is part of the php-annotation framework.
+ * Annotations
+ *
+ * Allows the creation of custom annotations in PHP.
+ *
+ * @category  Library
+ * @package   Annotations
+ * @author    Axel Nana <ax.lnana@outlook.com>
+ * @copyright 2011-2015 Rasmus Schultz <rasmus@mindplay.dk>, 2018 Aliens Group, Inc.
+ * @license   LGPL <http://github.com/ElementaryFramework/Annotations/blob/master/LICENSE>
+ * @version   0.0.1
+ *
+ *
+ * This file was originally a part of the php-annotation framework.
  *
  * (c) Rasmus Schultz <rasmus@mindplay.dk>
- *
- * This software is licensed under the GNU LGPL license
- * for more information, please see:
  *
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\annotations;
+namespace ElementaryFramework\Annotations;
 
 if (!defined('T_TRAIT')) {
     define(__NAMESPACE__ . '\\T_TRAIT', -2);
@@ -70,8 +79,8 @@ class AnnotationParser
      * @param string $source The PHP source code to be parsed
      * @param string $path The path of the source file being parsed (for error-reporting only)
      *
-     * @return string PHP source code to construct the annotations of the given PHP source code
-     * @throws AnnotationException if orphaned annotations are found at the end of the file
+     * @return string PHP source code to construct the Annotations of the given PHP source code
+     * @throws AnnotationException if orphaned Annotations are found at the end of the file
      */
     public function parse($source, $path)
     {

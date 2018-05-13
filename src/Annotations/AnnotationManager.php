@@ -1,17 +1,26 @@
 <?php
 
 /**
- * This file is part of the php-annotation framework.
+ * Annotations
+ *
+ * Allows the creation of custom annotations in PHP.
+ *
+ * @category  Library
+ * @package   Annotations
+ * @author    Axel Nana <ax.lnana@outlook.com>
+ * @copyright 2011-2015 Rasmus Schultz <rasmus@mindplay.dk>, 2018 Aliens Group, Inc.
+ * @license   LGPL <http://github.com/ElementaryFramework/Annotations/blob/master/LICENSE>
+ * @version   0.0.1
+ *
+ *
+ * This file was originally a part of the php-annotation framework.
  *
  * (c) Rasmus Schultz <rasmus@mindplay.dk>
- *
- * This software is licensed under the GNU LGPL license
- * for more information, please see:
  *
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\annotations;
+namespace ElementaryFramework\Annotations;
 
 /**
  * This class manages the retrieval of Annotations from source code files
@@ -66,14 +75,14 @@ class AnnotationManager
         'internal'       => false,
         'license'        => false,
         'link'           => false,
-        'method'         => 'mindplay\annotations\standard\MethodAnnotation',
+        'method'         => 'ElementaryFramework\Annotations\standard\MethodAnnotation',
         'name'           => false,
         'package'        => false,
-        'param'          => 'mindplay\annotations\standard\ParamAnnotation',
-        'property'       => 'mindplay\annotations\standard\PropertyAnnotation',
-        'property-read'  => 'mindplay\annotations\standard\PropertyReadAnnotation',
-        'property-write' => 'mindplay\annotations\standard\PropertyWriteAnnotation',
-        'return'         => 'mindplay\annotations\standard\ReturnAnnotation',
+        'param'          => 'ElementaryFramework\Annotations\standard\ParamAnnotation',
+        'property'       => 'ElementaryFramework\Annotations\standard\PropertyAnnotation',
+        'property-read'  => 'ElementaryFramework\Annotations\standard\PropertyReadAnnotation',
+        'property-write' => 'ElementaryFramework\Annotations\standard\PropertyWriteAnnotation',
+        'return'         => 'ElementaryFramework\Annotations\standard\ReturnAnnotation',
         'see'            => false,
         'since'          => false,
         'source'         => false,
@@ -83,11 +92,11 @@ class AnnotationManager
         'todo'           => false,
         'tutorial'       => false,
         'throws'         => false,
-        'type'           => 'mindplay\annotations\standard\TypeAnnotation',
-        'usage'          => 'mindplay\annotations\UsageAnnotation',
-        'stop'           => 'mindplay\annotations\StopAnnotation',
+        'type'           => 'ElementaryFramework\Annotations\standard\TypeAnnotation',
+        'usage'          => 'ElementaryFramework\Annotations\UsageAnnotation',
+        'stop'           => 'ElementaryFramework\Annotations\StopAnnotation',
         'uses'           => false,
-        'var'            => 'mindplay\annotations\standard\VarAnnotation',
+        'var'            => 'ElementaryFramework\Annotations\standard\VarAnnotation',
         'version'        => false,
     );
 
@@ -369,9 +378,9 @@ class AnnotationManager
 
     /**
      * Validates the constraints (as defined by the UsageAnnotation of each annotation) of a
-     * list of annotations for a given type of member.
+     * list of Annotations for a given type of member.
      *
-     * @param IAnnotation[] $annotations An array of IAnnotation objects to be validated (sorted with inherited annotations on top).
+     * @param IAnnotation[] $annotations An array of IAnnotation objects to be validated (sorted with inherited Annotations on top).
      * @param string        $member      The type of member to validate against (e.g. "class", "property" or "method").
      *
      * @return IAnnotation[] validated and filtered list of IAnnotations objects

@@ -1,23 +1,32 @@
 <?php
 
 /**
- * This file is part of the php-annotation framework.
+ * Annotations
+ *
+ * Allows the creation of custom annotations in PHP.
+ *
+ * @category  Library
+ * @package   Annotations
+ * @author    Axel Nana <ax.lnana@outlook.com>
+ * @copyright 2011-2015 Rasmus Schultz <rasmus@mindplay.dk>, 2018 Aliens Group, Inc.
+ * @license   LGPL <http://github.com/ElementaryFramework/Annotations/blob/master/LICENSE>
+ * @version   0.0.1
+ *
+ *
+ * This file was originally a part of the php-annotation framework.
  *
  * (c) Rasmus Schultz <rasmus@mindplay.dk>
- *
- * This software is licensed under the GNU LGPL license
- * for more information, please see:
  *
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\annotations\standard;
+namespace ElementaryFramework\Annotations\Standard;
 
-use mindplay\annotations\Annotation;
-use mindplay\annotations\AnnotationException;
-use mindplay\annotations\AnnotationFile;
-use mindplay\annotations\IAnnotationFileAware;
-use mindplay\annotations\IAnnotationParser;
+use ElementaryFramework\Annotations\Annotation;
+use ElementaryFramework\Annotations\AnnotationException;
+use ElementaryFramework\Annotations\AnnotationFile;
+use ElementaryFramework\Annotations\IAnnotationFileAware;
+use ElementaryFramework\Annotations\IAnnotationParser;
 
 
 /**
@@ -82,6 +91,10 @@ class PropertyAnnotation extends Annotation implements IAnnotationParser, IAnnot
 
     /**
      * Initialize the annotation.
+     *
+     * @param array $properties The array of annotation properties.
+     *
+     * @throws AnnotationException When the type or the name of the property is missing.
      */
     public function initAnnotation(array $properties)
     {
@@ -90,11 +103,11 @@ class PropertyAnnotation extends Annotation implements IAnnotationParser, IAnnot
         parent::initAnnotation($properties);
 
         if (!isset($this->type)) {
-            throw new AnnotationException(basename(__CLASS__).' requires a type property');
+            throw new AnnotationException(self::class.' requires a type property');
         }
 
         if (!isset($this->name)) {
-            throw new AnnotationException(basename(__CLASS__).' requires a name property');
+            throw new AnnotationException(self::class.' requires a name property');
         }
 
         $this->type = $this->file->resolveType($this->type);

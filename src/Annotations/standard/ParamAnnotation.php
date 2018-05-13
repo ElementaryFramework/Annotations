@@ -1,23 +1,32 @@
 <?php
 
 /**
- * This file is part of the php-annotation framework.
+ * Annotations
+ *
+ * Allows the creation of custom annotations in PHP.
+ *
+ * @category  Library
+ * @package   Annotations
+ * @author    Axel Nana <ax.lnana@outlook.com>
+ * @copyright 2011-2015 Rasmus Schultz <rasmus@mindplay.dk>, 2018 Aliens Group, Inc.
+ * @license   LGPL <http://github.com/ElementaryFramework/Annotations/blob/master/LICENSE>
+ * @version   0.0.1
+ *
+ *
+ * This file was originally a part of the php-annotation framework.
  *
  * (c) Rasmus Schultz <rasmus@mindplay.dk>
- *
- * This software is licensed under the GNU LGPL license
- * for more information, please see:
  *
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\annotations\standard;
+namespace ElementaryFramework\Annotations\Standard;
 
-use mindplay\annotations\AnnotationException;
-use mindplay\annotations\AnnotationFile;
-use mindplay\annotations\IAnnotationFileAware;
-use mindplay\annotations\IAnnotationParser;
-use mindplay\annotations\Annotation;
+use ElementaryFramework\Annotations\AnnotationException;
+use ElementaryFramework\Annotations\AnnotationFile;
+use ElementaryFramework\Annotations\IAnnotationFileAware;
+use ElementaryFramework\Annotations\IAnnotationParser;
+use ElementaryFramework\Annotations\Annotation;
 
 /**
  * Defines a method-parameter's type
@@ -46,7 +55,8 @@ class ParamAnnotation extends Annotation implements IAnnotationParser, IAnnotati
     /**
      * Parse the standard PHP-DOC "param" annotation.
      *
-     * @param string $value
+     * @param string $value The value to parse.
+     *
      * @return array ['type', 'name']
      */
     public static function parseAnnotation($value)
@@ -63,6 +73,10 @@ class ParamAnnotation extends Annotation implements IAnnotationParser, IAnnotati
 
     /**
      * Initialize the annotation.
+     *
+     * @param array $properties The array of annotation properties.
+     *
+     * @throws AnnotationException
      */
     public function initAnnotation(array $properties)
     {
