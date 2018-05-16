@@ -1,5 +1,5 @@
 <?php
-namespace mindplay\demo;
+namespace ElementaryFramework\Annotations\Demo;
 
 use Composer\Autoload\ClassLoader;
 use ElementaryFramework\Annotations\AnnotationCache;
@@ -17,7 +17,7 @@ if (!is_dir($vendor_path)) {
 require_once($vendor_path . '/autoload.php');
 
 $auto_loader = new ClassLoader();
-$auto_loader->addPsr4("mindplay\\demo\\", __DIR__);
+$auto_loader->addPsr4("ElementaryFramework\\Annotations\\Demo\\", __DIR__);
 $auto_loader->register();
 
 ## Configure the cache-path. The static `Annotations` class will configure any public
@@ -25,7 +25,7 @@ $auto_loader->register();
 ## property is a path to a writable folder, where the `AnnotationManager` caches parsed
 ## Annotations from individual source code files.
 
-Annotations::$config['cache'] = new AnnotationCache(__DIR__ . '/runtime');
+Annotations::setConfig('cache', new AnnotationCache(__DIR__ . '/runtime'));
 
 ## Register demo Annotations.
 Package::register(Annotations::getManager());
@@ -43,7 +43,7 @@ Package::register(Annotations::getManager());
 
 /**
  * Class Person
- * @package mindplay\demo
+ * @package ElementaryFramework\Annotations\Demo
  *
  * @method string test(integer $a, string $b, bool $c) The test method
  * @method bool check() The check method
@@ -257,7 +257,7 @@ class Form
         foreach ($class->getProperties() as $property) {
             $type = $this->getMetadata($property->name, '@var', 'type', 'string');
 
-            $wtype = 'mindplay\\demo\\' . ucfirst($type) . 'Widget';
+            $wtype = 'ElementaryFramework\\Annotations\\Demo\\' . ucfirst($type) . 'Widget';
 
             $this->widgets[$property->name] = new $wtype($this->object, $property->name);
         }
