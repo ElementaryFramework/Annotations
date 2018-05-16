@@ -61,7 +61,7 @@ class AnnotationManager
     /**
      * @var array List of registered annotation aliases.
      */
-    public $registry = array(
+    private $_registry = array(
         'api'            => false,
         'abstract'       => false,
         'access'         => false,
@@ -232,7 +232,7 @@ class AnnotationManager
      * @return string|bool The fully qualified annotation class-name, or false if the
      * requested annotation has been disabled (set to false) in the registry.
      *
-     * @see $registry
+     * @see $_registry
      */
     public function resolveName(string $name)
     {
@@ -242,8 +242,8 @@ class AnnotationManager
 
         $type = \lcfirst($name);
 
-        if (isset($this->registry[$type])) {
-            return $this->registry[$type]; // type-name is registered
+        if (isset($this->_registry[$type])) {
+            return $this->_registry[$type]; // type-name is registered
         }
 
         $type = \ucfirst(\strtr($name, '-', '_')) . $this->suffix;
@@ -467,7 +467,7 @@ class AnnotationManager
      */
     public function getUsage(string $class): UsageAnnotation
     {
-        if ($class === $this->registry['usage']) {
+        if ($class === $this->_registry['usage']) {
             return $this->_usageAnnotation;
         }
 
@@ -610,5 +610,16 @@ class AnnotationManager
         } else {
             return $this->filterAnnotations($this->getAnnotations($class, self::MEMBER_PROPERTY, '$' . $property), $type);
         }
+    }
+
+    /**
+     * Adds an annotation in the registry.
+     *
+     * @param string      $annotation The annotation to register.
+     * @param string|bool $class      The full name of the class.
+     */
+    public function registerAnnotation(string $annotation, $class)
+    {
+        $this->_registry[$annotation] = $class;
     }
 }
