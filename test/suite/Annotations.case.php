@@ -1,7 +1,7 @@
 <?php
 
 /**
- * TEST CASE: Sample Annotations
+ * TEST CASE: Sample annotations
  */
 
 use ElementaryFramework\Annotations\Annotation;

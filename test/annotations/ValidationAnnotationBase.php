@@ -17,7 +17,7 @@ namespace ElementaryFramework\Annotations\Demo\Annotations;
 use ElementaryFramework\Annotations\Annotation;
 
 /**
- * Abstract base class for validation Annotations.
+ * Abstract base class for validation annotations.
  */
 abstract class ValidationAnnotationBase extends Annotation
 {

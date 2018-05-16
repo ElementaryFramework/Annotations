@@ -18,7 +18,7 @@ if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
 }
 
 /**
- * This class implements tests for core Annotations
+ * This class implements tests for core annotations
  */
 class AnnotationsTest extends xTest
 {
@@ -35,22 +35,20 @@ class AnnotationsTest extends xTest
         $testRunner->startCoverageCollector(__CLASS__);
         $cachePath = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'runtime';
 
-        Annotations::$config = array(
-            'cache' => new AnnotationCache($cachePath),
-        );
+        Annotations::setConfig('cache', new AnnotationCache($cachePath));
 
         if (!is_writable($cachePath)) {
             die('cache path is not writable: ' . $cachePath);
         }
 
         // manually wipe out the cache:
-        $pattern = Annotations::getManager()->cache->getRoot() . DIRECTORY_SEPARATOR . '*.Annotations.php';
+        $pattern = Annotations::getManager()->cache->getRoot() . DIRECTORY_SEPARATOR . '*.annotations.php';
 
         foreach (glob($pattern) as $path) {
             unlink($path);
         }
 
-        // disable some Annotations not used during testing:
+        // disable some annotations not used during testing:
         Annotations::getManager()->registerAnnotation('var', false);
         Annotations::getManager()->registerAnnotation('undefined', 'UndefinedAnnotation');
         $testRunner->stopCoverageCollector();
@@ -61,7 +59,7 @@ class AnnotationsTest extends xTest
     protected function testCanResolveAnnotationNames()
     {
         $manager = new AnnotationManager;
-        $manager->namespace = ''; // look for Annotations in the global namespace
+        $manager->namespace = ''; // look for annotations in the global namespace
         $manager->suffix = 'Annotation'; // use a suffix for annotation class-names
 
         $this->check(
@@ -125,7 +123,7 @@ class AnnotationsTest extends xTest
     {
         $manager = new AnnotationManager;
         Package::register($manager);
-        $manager->namespace = ''; // look for Annotations in the global namespace
+        $manager->namespace = ''; // look for annotations in the global namespace
         $manager->suffix = 'Annotation'; // use a suffix for annotation class-names
 
         $parser = $manager->getParser();
@@ -281,7 +279,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Unable to read Annotations from an undefined class 'NonExistingClass'"
+            "Unable to read annotations from an undefined class 'NonExistingClass'"
         );
         Annotations::ofMethod('NonExistingClass');
     }
@@ -290,7 +288,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            'Unable to read Annotations from an undefined method Test::nonExistingMethod()'
+            'Unable to read annotations from an undefined method Test::nonExistingMethod()'
         );
         Annotations::ofMethod('Test', 'nonExistingMethod');
     }
@@ -314,7 +312,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Unable to read Annotations from an undefined class 'NonExistingClass'"
+            "Unable to read annotations from an undefined class 'NonExistingClass'"
         );
         Annotations::ofProperty('NonExistingClass', 'sample');
     }
@@ -323,7 +321,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            'Unable to read Annotations from an undefined property Test::$nonExisting'
+            'Unable to read annotations from an undefined property Test::$nonExisting'
         );
         Annotations::ofProperty('Test', 'nonExisting');
     }
@@ -333,7 +331,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofClass('TestBase', 'NoteAnnotation');
 
         if (!count($anns)) {
-            $this->fail('No Annotations found');
+            $this->fail('No annotations found');
             return;
         }
 
@@ -351,7 +349,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofMethod('TestBase', 'run', 'NoteAnnotation');
 
         if (!count($anns)) {
-            $this->fail('No Annotations found');
+            $this->fail('No annotations found');
             return;
         }
 
@@ -369,7 +367,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofProperty('Test', 'mixed', 'NoteAnnotation');
 
         if (!count($anns)) {
-            $this->fail('No Annotations found');
+            $this->fail('No annotations found');
             return;
         }
 
@@ -458,7 +456,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofProperty('Test', 'override_me');
 
         if (count($anns) != 1) {
-            $this->fail(count($anns) . ' Annotations found - expected 1');
+            $this->fail(count($anns) . ' annotations found - expected 1');
             return;
         }
 
@@ -548,28 +546,28 @@ class AnnotationsTest extends xTest
     {
         $annotations = Annotations::ofClass('TestClassExtendingUserDefined', '@note');
 
-        $this->check(count($annotations) == 2, 'TestClassExtendingUserDefined has two note Annotations.');
+        $this->check(count($annotations) == 2, 'TestClassExtendingUserDefined has two note annotations.');
     }
 
     protected function testDoNotParseCoreClasses()
     {
         $annotations = Annotations::ofClass('TestClassExtendingCore', '@note');
 
-        $this->check(count($annotations) == 1, 'TestClassExtendingCore has one note Annotations.');
+        $this->check(count($annotations) == 1, 'TestClassExtendingCore has one note annotations.');
     }
 
     protected function testDoNotParseExtensionClasses()
     {
         $annotations = Annotations::ofClass('TestClassExtendingExtension', '@note');
 
-        $this->check(count($annotations) == 1, 'TestClassExtendingExtension has one note Annotations.');
+        $this->check(count($annotations) == 1, 'TestClassExtendingExtension has one note annotations.');
     }
 
     protected function testGetAnnotationsFromNonExistingClass()
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Unable to read Annotations from an undefined class/trait 'NonExistingClass'"
+            "Unable to read annotations from an undefined class/trait 'NonExistingClass'"
         );
         Annotations::ofClass('NonExistingClass', '@note');
     }
@@ -578,7 +576,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Reading Annotations from interface 'TestInterface' is not supported"
+            "Reading annotations from interface 'TestInterface' is not supported"
         );
         Annotations::ofClass('TestInterface', '@note');
     }
@@ -617,12 +615,12 @@ class AnnotationsTest extends xTest
         }
 
         $annotations = Annotations::ofMethod('InheritanceTraitTester', 'baseTraitAndParent');
-        $this->check(count($annotations) === 2, 'baseTraitAndParent inherits parent Annotations');
+        $this->check(count($annotations) === 2, 'baseTraitAndParent inherits parent annotations');
         $this->check($annotations[0]->note === 'inheritance-base-trait-tester', 'parent annotation first');
         $this->check($annotations[1]->note === 'inheritance-base-trait', 'trait annotation second');
 
         $annotations = Annotations::ofMethod('InheritanceTraitTester', 'traitAndParent');
-        $this->check(count($annotations) === 2, 'traitAndParent inherits parent Annotations');
+        $this->check(count($annotations) === 2, 'traitAndParent inherits parent annotations');
         $this->check($annotations[0]->note === 'inheritance-base-trait-tester', 'parent annotation first');
         $this->check($annotations[1]->note === 'inheritance-trait', 'trait annotation second');
 
@@ -707,12 +705,12 @@ class AnnotationsTest extends xTest
         $this->check($annotations[0]->note === 'property-conflict-trait-tester', 'child annotation first');
 
         $annotations = Annotations::ofProperty('PropertyConflictTraitTester', 'traitAndTraitAndParent');
-        $this->check(count($annotations) === 2, 'traitAndTraitAndParent inherits parent Annotations');
+        $this->check(count($annotations) === 2, 'traitAndTraitAndParent inherits parent annotations');
         $this->check($annotations[0]->note === 'property-conflict-base-trait-tester', 'parent annotation first');
         $this->check($annotations[1]->note === 'property-conflict-trait-two', 'first listed trait annotation second');
 
         $annotations = Annotations::ofProperty('PropertyConflictTraitTester', 'unannotatedTraitAndAnnotatedTrait');
-        $this->check(count($annotations) === 0, 'unannotatedTraitAndAnnotatedTrait has no Annotations');
+        $this->check(count($annotations) === 0, 'unannotatedTraitAndAnnotatedTrait has no annotations');
 
         $annotations = Annotations::ofProperty('PropertyConflictTraitTester', 'traitAndParentAndChild');
         $this->check(count($annotations) === 2, 'traitAndParentAndChild does not inherit trait annotation');
