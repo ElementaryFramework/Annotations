@@ -13,7 +13,7 @@
 
 namespace mindplay\demo\annotations;
 
-use mindplay\annotations\AnnotationException;
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
 
 /**
  * Specifies validation against a minimum and/or maximum numeric value.

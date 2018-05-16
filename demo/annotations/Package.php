@@ -14,15 +14,15 @@
 namespace mindplay\demo\annotations;
 
 
-use mindplay\annotations\AnnotationManager;
+use ElementaryFramework\Annotations\AnnotationManager;
 
 abstract class Package
 {
     public static function register(AnnotationManager $annotationManager)
     {
-        $annotationManager->registry['length'] = 'mindplay\demo\annotations\LengthAnnotation';
-        $annotationManager->registry['required'] = 'mindplay\demo\annotations\RequiredAnnotation';
-        $annotationManager->registry['text'] = 'mindplay\demo\annotations\TextAnnotation';
-        $annotationManager->registry['range'] = 'mindplay\demo\annotations\RangeAnnotation';
+        $annotationManager->registerAnnotation('length', 'mindplay\demo\annotations\LengthAnnotation');
+        $annotationManager->registerAnnotation('required', 'mindplay\demo\annotations\RequiredAnnotation');
+        $annotationManager->registerAnnotation('text', 'mindplay\demo\annotations\TextAnnotation');
+        $annotationManager->registerAnnotation('range', 'mindplay\demo\annotations\RangeAnnotation');
      }
 }

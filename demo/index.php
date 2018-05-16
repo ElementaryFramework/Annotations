@@ -2,8 +2,8 @@
 namespace mindplay\demo;
 
 use Composer\Autoload\ClassLoader;
-use mindplay\annotations\AnnotationCache;
-use mindplay\annotations\Annotations;
+use ElementaryFramework\Annotations\AnnotationCache;
+use ElementaryFramework\Annotations\Annotations;
 use mindplay\demo\annotations\Package;
 
 ## Configure a simple auto-loader
@@ -41,6 +41,14 @@ Package::register(Annotations::getManager());
 ## run-time, to help them establish defaults and make sensible decisions about how to
 ## handle the value of each property.
 
+/**
+ * Class Person
+ * @package mindplay\demo
+ *
+ * @method string test(integer $a, string $b, bool $c) The test method
+ * @method bool check() The check method
+ * @method bool uncheck()
+ */
 class Person
 {
     /**

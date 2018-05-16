@@ -14,7 +14,7 @@
 namespace mindplay\demo\annotations;
 
 
-use mindplay\annotations\Annotation;
+use ElementaryFramework\Annotations\Annotation;
 
 /**
  * Abstract base class for validation annotations.

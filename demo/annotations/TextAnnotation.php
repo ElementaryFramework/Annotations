@@ -14,7 +14,7 @@
 namespace mindplay\demo\annotations;
 
 
-use mindplay\annotations\Annotation;
+use ElementaryFramework\Annotations\Annotation;
 
 /**
  * Defines various text (labels, hints, etc.) to be displayed with the annotated property

@@ -14,7 +14,7 @@
 namespace mindplay\demo\annotations;
 
 
-use mindplay\annotations\AnnotationException;
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
 
 /**
  * Specifies validation of a string, requiring a minimum and/or maximum length.
