@@ -1,6 +1,6 @@
 <?php
 
-namespace mindplay\test\Sample;
+namespace ElementaryFramework\Annotations\Test\Sample;
 
 /**
  * @DefaultSample

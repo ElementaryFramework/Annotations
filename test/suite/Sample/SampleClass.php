@@ -1,13 +1,13 @@
 <?php
 
-namespace mindplay\test\Sample;
+namespace ElementaryFramework\Annotations\Test\Sample;
 
 // for AnnotationsTest::testCanGetAnnotationFile()
 use Test;
-use mindplay\annotations\Annotation as SampleAlias;
+use ElementaryFramework\Annotations\Annotation as SampleAlias;
 
 /**
- * @mindplay\test\Sample\Sample
+ * @ElementaryFramework\Annotations\Test\Sample\Sample
  */
 class SampleClass
 {

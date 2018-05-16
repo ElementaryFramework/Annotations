@@ -11,7 +11,7 @@
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\test\annotations;
+namespace ElementaryFramework\Annotations\Demo\Annotations;
 
 /**
  * Specifies validation requiring a non-empty value.

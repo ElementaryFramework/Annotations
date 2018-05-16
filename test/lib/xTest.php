@@ -1,6 +1,6 @@
 <?php
-namespace mindplay\test\lib;
-use mindplay\test\lib\ResultPrinter\ResultPrinter;
+namespace ElementaryFramework\Annotations\Test\lib;
+use ElementaryFramework\Annotations\Test\lib\ResultPrinter\ResultPrinter;
 
 /**
  * A base class to support simple unit tests.

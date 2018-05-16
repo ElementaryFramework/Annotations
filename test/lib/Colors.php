@@ -1,5 +1,5 @@
 <?php
-namespace mindplay\test\lib;
+namespace ElementaryFramework\Annotations\Test\lib;
 
 
 class Colors

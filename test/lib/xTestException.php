@@ -1,5 +1,5 @@
 <?php
-namespace mindplay\test\lib;
+namespace ElementaryFramework\Annotations\Test\lib;
 
 /**
  * The xTest::fail() method throws and catches this exception, in order to

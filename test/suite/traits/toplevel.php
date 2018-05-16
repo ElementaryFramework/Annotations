@@ -1,7 +1,7 @@
 <?php
 
-use mindplay\test\traits\AliasTrait;
-use mindplay\test\traits\InsteadofTraitA;
+use ElementaryFramework\Annotations\Demo\Traits\AliasTrait;
+use ElementaryFramework\Annotations\Demo\Traits\InsteadofTraitA;
 
 /**
  * @note('simple-trait')
@@ -23,7 +23,7 @@ trait SimpleTrait
 
 class SimpleTraitTester
 {
-    use SimpleTrait, mindplay\test\traits\AnotherSimpleTrait;
+    use SimpleTrait, ElementaryFramework\Annotations\Demo\Traits\AnotherSimpleTrait;
 }
 
 trait InheritanceBaseTrait
@@ -169,8 +169,8 @@ class InsteadofBaseTraitTester
 
 class InsteadofTraitTester extends InsteadofBaseTraitTester
 {
-    use InsteadofTraitA, mindplay\test\traits\InsteadofTraitB {
-        InsteadofTraitA::trate insteadof mindplay\test\traits\InsteadofTraitB;
-        mindplay\test\traits\InsteadofTraitB::baseTrait insteadof InsteadofTraitA;
+    use InsteadofTraitA, ElementaryFramework\Annotations\Demo\Traits\InsteadofTraitB {
+        InsteadofTraitA::trate insteadof ElementaryFramework\Annotations\Demo\Traits\InsteadofTraitB;
+        ElementaryFramework\Annotations\Demo\Traits\InsteadofTraitB::baseTrait insteadof InsteadofTraitA;
     }
 }

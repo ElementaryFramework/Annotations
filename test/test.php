@@ -1,8 +1,8 @@
 <?php
-namespace mindplay\test;
+namespace ElementaryFramework\Annotations\Test;
 
 use Composer\Autoload\ClassLoader;
-use mindplay\test\lib\xTestRunner;
+use ElementaryFramework\Annotations\Test\lib\xTestRunner;
 
 define('FULL_PATH', realpath(__DIR__ . '/..'));
 
@@ -16,8 +16,9 @@ if (!is_dir($vendor_path)) {
 require_once($vendor_path . '/autoload.php');
 
 $auto_loader = new ClassLoader();
-$auto_loader->addPsr4("mindplay\\test\\", FULL_PATH . '/test');
-$auto_loader->addPsr4("mindplay\\test\\Sample\\", FULL_PATH . '/test/suite/Sample');
+$auto_loader->addPsr4("ElementaryFramework\\Annotations\\Test\\", FULL_PATH . '/test');
+$auto_loader->addPsr4("ElementaryFramework\\Annotations\\Demo\\", FULL_PATH . '/demo');
+$auto_loader->addPsr4("ElementaryFramework\\Annotations\\Test\\Sample\\", FULL_PATH . '/test/suite/Sample');
 $auto_loader->register();
 
 $runner = new xTestRunner(dirname(__DIR__) . '/src/annotations', xTestRunner::createResultPrinter());

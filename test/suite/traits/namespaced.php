@@ -1,6 +1,6 @@
 <?php
 
-namespace mindplay\test\traits;
+namespace ElementaryFramework\Annotations\Demo\Traits;
 
 trait AnotherSimpleTrait
 {
@@ -29,8 +29,8 @@ trait AliasBaseTrait
 
 trait AliasTrait
 {
-    use \mindplay\test\traits\AliasBaseTrait {
-        \mindplay\test\traits\AliasBaseTrait::run as baseTraitRun;
+    use AliasBaseTrait {
+        AliasBaseTrait::run as baseTraitRun;
     }
 
     /**

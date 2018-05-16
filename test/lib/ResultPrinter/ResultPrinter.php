@@ -1,9 +1,9 @@
 <?php
-namespace mindplay\test\lib\ResultPrinter;
+namespace ElementaryFramework\Annotations\Test\lib\ResultPrinter;
 
 
-use mindplay\test\lib\xTest;
-use mindplay\test\lib\xTestRunner;
+use ElementaryFramework\Annotations\Test\lib\xTest;
+use ElementaryFramework\Annotations\Test\lib\xTestRunner;
 
 abstract class ResultPrinter
 {

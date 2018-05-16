@@ -2,15 +2,15 @@
 require_once __DIR__ . '/Annotations.case.php';
 require_once __DIR__ . '/Annotations.Sample.case.php';
 
-use mindplay\annotations\AnnotationFile;
-use mindplay\annotations\AnnotationCache;
-use mindplay\annotations\AnnotationManager;
-use mindplay\annotations\Annotations;
-use mindplay\annotations\Annotation;
-use mindplay\annotations\standard\ReturnAnnotation;
-use mindplay\test\annotations\Package;
-use mindplay\test\lib\xTest;
-use mindplay\test\lib\xTestRunner;
+use ElementaryFramework\Annotations\AnnotationFile;
+use ElementaryFramework\Annotations\AnnotationCache;
+use ElementaryFramework\Annotations\AnnotationManager;
+use ElementaryFramework\Annotations\Annotations;
+use ElementaryFramework\Annotations\Annotation;
+use ElementaryFramework\Annotations\Standard\ReturnAnnotation;
+use ElementaryFramework\Annotations\Demo\Annotations\Package;
+use ElementaryFramework\Annotations\Test\lib\xTest;
+use ElementaryFramework\Annotations\Test\lib\xTestRunner;
 
 if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
     require_once __DIR__ . '/traits/namespaced.php';
@@ -18,11 +18,11 @@ if (version_compare(PHP_VERSION, '5.4.0', '>=')) {
 }
 
 /**
- * This class implements tests for core annotations
+ * This class implements tests for core Annotations
  */
 class AnnotationsTest extends xTest
 {
-    const ANNOTATION_EXCEPTION = 'mindplay\annotations\AnnotationException';
+    const ANNOTATION_EXCEPTION = 'ElementaryFramework\Annotations\Exceptions\AnnotationException';
 
     /**
      * Run this test.
@@ -44,15 +44,15 @@ class AnnotationsTest extends xTest
         }
 
         // manually wipe out the cache:
-        $pattern = Annotations::getManager()->cache->getRoot() . DIRECTORY_SEPARATOR . '*.annotations.php';
+        $pattern = Annotations::getManager()->cache->getRoot() . DIRECTORY_SEPARATOR . '*.Annotations.php';
 
         foreach (glob($pattern) as $path) {
             unlink($path);
         }
 
-        // disable some annotations not used during testing:
-        Annotations::getManager()->registry['var'] = false;
-        Annotations::getManager()->registry['undefined'] = 'UndefinedAnnotation';
+        // disable some Annotations not used during testing:
+        Annotations::getManager()->registerAnnotation('var', false);
+        Annotations::getManager()->registerAnnotation('undefined', 'UndefinedAnnotation');
         $testRunner->stopCoverageCollector();
 
         return parent::run($testRunner);
@@ -61,7 +61,7 @@ class AnnotationsTest extends xTest
     protected function testCanResolveAnnotationNames()
     {
         $manager = new AnnotationManager;
-        $manager->namespace = ''; // look for annotations in the global namespace
+        $manager->namespace = ''; // look for Annotations in the global namespace
         $manager->suffix = 'Annotation'; // use a suffix for annotation class-names
 
         $this->check(
@@ -73,7 +73,7 @@ class AnnotationsTest extends xTest
             'should suffix fully qualified annotation names'
         );
 
-        $manager->registry['test'] = 'X\Y\Z\TestAnnotation';
+        $manager->registerAnnotation('test', 'X\Y\Z\TestAnnotation');
         $this->check(
             $manager->resolveName('test') === 'X\Y\Z\TestAnnotation',
             'should respect registered annotation types'
@@ -83,7 +83,7 @@ class AnnotationsTest extends xTest
             'should ignore case of first letter in annotation names'
         );
 
-        $manager->registry['test'] = false;
+        $manager->registerAnnotation('test', false);
         $this->check($manager->resolveName('test') === false, 'should respect disabled annotation types');
 
         $manager->namespace = 'ABC';
@@ -101,7 +101,7 @@ class AnnotationsTest extends xTest
         $method = $manager_reflection->getMethod('getAnnotationFile');
         $method->setAccessible(true);
 
-        $class_reflection = new ReflectionClass('mindplay\test\Sample\SampleClass');
+        $class_reflection = new ReflectionClass('ElementaryFramework\Annotations\Test\Sample\SampleClass');
 
         // absolute path to the class-file used for testing
         $file_path = $class_reflection->getFileName();
@@ -114,9 +114,9 @@ class AnnotationsTest extends xTest
         $this->check($file instanceof AnnotationFile, 'should be an instance of AnnotationFile');
         $this->check(count($file->data) > 0, 'should contain Annotation data');
         $this->check($file->path === $file_path, 'should reflect path to class-file');
-        $this->check($file->namespace === 'mindplay\test\Sample', 'should reflect namespace');
+        $this->check($file->namespace === 'ElementaryFramework\Annotations\Test\Sample', 'should reflect namespace');
         $this->check(
-            $file->uses === array('Test' => 'Test', 'SampleAlias' => 'mindplay\annotations\Annotation'),
+            $file->uses === array('Test' => 'Test', 'SampleAlias' => 'ElementaryFramework\Annotations\Annotation'),
             'should reflect use-clause'
         );
     }
@@ -125,7 +125,7 @@ class AnnotationsTest extends xTest
     {
         $manager = new AnnotationManager;
         Package::register($manager);
-        $manager->namespace = ''; // look for annotations in the global namespace
+        $manager->namespace = ''; // look for Annotations in the global namespace
         $manager->suffix = 'Annotation'; // use a suffix for annotation class-names
 
         $parser = $manager->getParser();
@@ -176,7 +176,7 @@ class AnnotationsTest extends xTest
         $this->check($test['foo\bar\Sample'][1][0] === 'abc', 'value of second annotation is "abc"');
 
         $this->check(
-            $test['foo\bar\Sample'][2]['#type'] === 'mindplay\test\annotations\RequiredAnnotation',
+            $test['foo\bar\Sample'][2]['#type'] === 'ElementaryFramework\Annotations\Demo\Annotations\RequiredAnnotation',
             'third annotation is a RequiredAnnotation'
         );
 
@@ -281,7 +281,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Unable to read annotations from an undefined class 'NonExistingClass'"
+            "Unable to read Annotations from an undefined class 'NonExistingClass'"
         );
         Annotations::ofMethod('NonExistingClass');
     }
@@ -290,7 +290,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            'Unable to read annotations from an undefined method Test::nonExistingMethod()'
+            'Unable to read Annotations from an undefined method Test::nonExistingMethod()'
         );
         Annotations::ofMethod('Test', 'nonExistingMethod');
     }
@@ -314,7 +314,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Unable to read annotations from an undefined class 'NonExistingClass'"
+            "Unable to read Annotations from an undefined class 'NonExistingClass'"
         );
         Annotations::ofProperty('NonExistingClass', 'sample');
     }
@@ -323,7 +323,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            'Unable to read annotations from an undefined property Test::$nonExisting'
+            'Unable to read Annotations from an undefined property Test::$nonExisting'
         );
         Annotations::ofProperty('Test', 'nonExisting');
     }
@@ -333,7 +333,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofClass('TestBase', 'NoteAnnotation');
 
         if (!count($anns)) {
-            $this->fail('No annotations found');
+            $this->fail('No Annotations found');
             return;
         }
 
@@ -351,7 +351,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofMethod('TestBase', 'run', 'NoteAnnotation');
 
         if (!count($anns)) {
-            $this->fail('No annotations found');
+            $this->fail('No Annotations found');
             return;
         }
 
@@ -369,7 +369,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofProperty('Test', 'mixed', 'NoteAnnotation');
 
         if (!count($anns)) {
-            $this->fail('No annotations found');
+            $this->fail('No Annotations found');
             return;
         }
 
@@ -458,7 +458,7 @@ class AnnotationsTest extends xTest
         $anns = Annotations::ofProperty('Test', 'override_me');
 
         if (count($anns) != 1) {
-            $this->fail(count($anns) . ' annotations found - expected 1');
+            $this->fail(count($anns) . ' Annotations found - expected 1');
             return;
         }
 
@@ -483,11 +483,11 @@ class AnnotationsTest extends xTest
 
     protected function testCanHandleNamespaces()
     {
-        // This test asserts that a namespaced class can be annotated, that annotations can
-        // be namespaced, and that asking for annotations of a namespaced annotation-type
+        // This test asserts that a namespaced class can be annotated, that Annotations can
+        // be namespaced, and that asking for Annotations of a namespaced annotation-type
         // yields the expected result.
 
-        $anns = Annotations::ofClass('mindplay\test\Sample\SampleClass', 'mindplay\test\Sample\SampleAnnotation');
+        $anns = Annotations::ofClass('ElementaryFramework\Annotations\Test\Sample\SampleClass', 'ElementaryFramework\Annotations\Test\Sample\SampleAnnotation');
 
         $this->check(count($anns) == 1, 'one SampleAnnotation was expected - found ' . count($anns));
     }
@@ -495,12 +495,12 @@ class AnnotationsTest extends xTest
     protected function testCanUseAnnotationsInDefaultNamespace()
     {
         $manager = new AnnotationManager();
-        $manager->namespace = 'mindplay\test\Sample';
+        $manager->namespace = 'ElementaryFramework\Annotations\Test\Sample';
         $manager->cache = false;
 
         $anns = $manager->getClassAnnotations(
-            'mindplay\test\Sample\AnnotationInDefaultNamespace',
-            'mindplay\test\Sample\SampleAnnotation'
+            'ElementaryFramework\Annotations\Test\Sample\AnnotationInDefaultNamespace',
+            'ElementaryFramework\Annotations\Test\Sample\SampleAnnotation'
         );
 
         $this->check(count($anns) == 1, 'one SampleAnnotation was expected - found ' . count($anns));
@@ -509,12 +509,12 @@ class AnnotationsTest extends xTest
     protected function testCanIgnoreAnnotations()
     {
         $manager = new AnnotationManager();
-        $manager->namespace = 'mindplay\test\Sample';
+        $manager->namespace = 'ElementaryFramework\Annotations\Test\Sample';
         $manager->cache = false;
 
-        $manager->registry['ignored'] = false;
+        $manager->registerAnnotation('ignored', false);
 
-        $anns = $manager->getClassAnnotations('mindplay\test\Sample\IgnoreMe');
+        $anns = $manager->getClassAnnotations('ElementaryFramework\Annotations\Test\Sample\IgnoreMe');
 
         $this->check(count($anns) == 0, 'the @ignored annotation should be ignored');
     }
@@ -522,18 +522,18 @@ class AnnotationsTest extends xTest
     protected function testCanUseAnnotationAlias()
     {
         $manager = new AnnotationManager();
-        $manager->namespace = 'mindplay\test\Sample';
+        $manager->namespace = 'ElementaryFramework\Annotations\Test\Sample';
         $manager->cache = false;
 
-        $manager->registry['aliased'] = 'mindplay\test\Sample\SampleAnnotation';
+        $manager->registerAnnotation('aliased', 'ElementaryFramework\Annotations\Test\Sample\SampleAnnotation');
 
         /** @var Annotation[] $anns */
-        $anns = $manager->getClassAnnotations('mindplay\test\Sample\AliasMe');
+        $anns = $manager->getClassAnnotations('ElementaryFramework\Annotations\Test\Sample\AliasMe');
 
         $this->check(count($anns) == 1, 'the @aliased annotation should be aliased');
         $this->check(
-            get_class($anns[0]) == 'mindplay\test\Sample\SampleAnnotation',
-            'returned @aliased annotation should map to mindplay\test\Sample\SampleAnnotation'
+            get_class($anns[0]) == 'ElementaryFramework\Annotations\Test\Sample\SampleAnnotation',
+            'returned @aliased annotation should map to ElementaryFramework\Annotations\Test\Sample\SampleAnnotation'
         );
     }
 
@@ -548,28 +548,28 @@ class AnnotationsTest extends xTest
     {
         $annotations = Annotations::ofClass('TestClassExtendingUserDefined', '@note');
 
-        $this->check(count($annotations) == 2, 'TestClassExtendingUserDefined has two note annotations.');
+        $this->check(count($annotations) == 2, 'TestClassExtendingUserDefined has two note Annotations.');
     }
 
     protected function testDoNotParseCoreClasses()
     {
         $annotations = Annotations::ofClass('TestClassExtendingCore', '@note');
 
-        $this->check(count($annotations) == 1, 'TestClassExtendingCore has one note annotations.');
+        $this->check(count($annotations) == 1, 'TestClassExtendingCore has one note Annotations.');
     }
 
     protected function testDoNotParseExtensionClasses()
     {
         $annotations = Annotations::ofClass('TestClassExtendingExtension', '@note');
 
-        $this->check(count($annotations) == 1, 'TestClassExtendingExtension has one note annotations.');
+        $this->check(count($annotations) == 1, 'TestClassExtendingExtension has one note Annotations.');
     }
 
     protected function testGetAnnotationsFromNonExistingClass()
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Unable to read annotations from an undefined class/trait 'NonExistingClass'"
+            "Unable to read Annotations from an undefined class/trait 'NonExistingClass'"
         );
         Annotations::ofClass('NonExistingClass', '@note');
     }
@@ -578,7 +578,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            "Reading annotations from interface 'TestInterface' is not supported"
+            "Reading Annotations from interface 'TestInterface' is not supported"
         );
         Annotations::ofClass('TestInterface', '@note');
     }
@@ -617,12 +617,12 @@ class AnnotationsTest extends xTest
         }
 
         $annotations = Annotations::ofMethod('InheritanceTraitTester', 'baseTraitAndParent');
-        $this->check(count($annotations) === 2, 'baseTraitAndParent inherits parent annotations');
+        $this->check(count($annotations) === 2, 'baseTraitAndParent inherits parent Annotations');
         $this->check($annotations[0]->note === 'inheritance-base-trait-tester', 'parent annotation first');
         $this->check($annotations[1]->note === 'inheritance-base-trait', 'trait annotation second');
 
         $annotations = Annotations::ofMethod('InheritanceTraitTester', 'traitAndParent');
-        $this->check(count($annotations) === 2, 'traitAndParent inherits parent annotations');
+        $this->check(count($annotations) === 2, 'traitAndParent inherits parent Annotations');
         $this->check($annotations[0]->note === 'inheritance-base-trait-tester', 'parent annotation first');
         $this->check($annotations[1]->note === 'inheritance-trait', 'trait annotation second');
 
@@ -707,12 +707,12 @@ class AnnotationsTest extends xTest
         $this->check($annotations[0]->note === 'property-conflict-trait-tester', 'child annotation first');
 
         $annotations = Annotations::ofProperty('PropertyConflictTraitTester', 'traitAndTraitAndParent');
-        $this->check(count($annotations) === 2, 'traitAndTraitAndParent inherits parent annotations');
+        $this->check(count($annotations) === 2, 'traitAndTraitAndParent inherits parent Annotations');
         $this->check($annotations[0]->note === 'property-conflict-base-trait-tester', 'parent annotation first');
         $this->check($annotations[1]->note === 'property-conflict-trait-two', 'first listed trait annotation second');
 
         $annotations = Annotations::ofProperty('PropertyConflictTraitTester', 'unannotatedTraitAndAnnotatedTrait');
-        $this->check(count($annotations) === 0, 'unannotatedTraitAndAnnotatedTrait has no annotations');
+        $this->check(count($annotations) === 0, 'unannotatedTraitAndAnnotatedTrait has no Annotations');
 
         $annotations = Annotations::ofProperty('PropertyConflictTraitTester', 'traitAndParentAndChild');
         $this->check(count($annotations) === 2, 'traitAndParentAndChild does not inherit trait annotation');
@@ -813,7 +813,7 @@ class AnnotationsTest extends xTest
 
         $this->check(count($annotations) == 1, 'the @TypeAware annotation was found');
         $this->check(
-            $annotations[0]->type == 'mindplay\annotations\IAnnotationParser',
+            $annotations[0]->type == 'ElementaryFramework\Annotations\IAnnotationParser',
             'data type of type-aware annotation was resolved'
         );
     }
@@ -933,7 +933,7 @@ class AnnotationsTest extends xTest
     {
         $this->setExpectedException(
             self::ANNOTATION_EXCEPTION,
-            'ParamAnnotation requires a type property'
+            \ElementaryFramework\Annotations\Standard\ParamAnnotation::class . ' requires a type property'
         );
 
         Annotations::ofMethod('BrokenParamAnnotationClass', 'brokenParamAnnotation');
@@ -942,11 +942,11 @@ class AnnotationsTest extends xTest
     protected function testOrphanedAnnotationsAreIgnored()
     {
         $manager = new AnnotationManager();
-        $manager->namespace = 'mindplay\test\Sample';
+        $manager->namespace = 'ElementaryFramework\Annotations\Test\Sample';
         $manager->cache = false;
 
         /** @var Annotation[] $annotations */
-        $annotations = $manager->getMethodAnnotations('mindplay\test\Sample\OrphanedAnnotations', 'someMethod');
+        $annotations = $manager->getMethodAnnotations('ElementaryFramework\Annotations\Test\Sample\OrphanedAnnotations', 'someMethod');
 
         $this->check(count($annotations) == 1, 'the @return annotation was found');
         $this->check(

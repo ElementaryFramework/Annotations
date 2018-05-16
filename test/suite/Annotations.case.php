@@ -4,10 +4,10 @@
  * TEST CASE: Sample Annotations
  */
 
-use mindplay\annotations\Annotation;
-use mindplay\annotations\IAnnotationParser;
-use mindplay\annotations\AnnotationException;
-use mindplay\annotations\standard\TypeAnnotation;
+use ElementaryFramework\Annotations\Annotation;
+use ElementaryFramework\Annotations\IAnnotationParser;
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
+use ElementaryFramework\Annotations\Standard\TypeAnnotation;
 
 /**
  * @usage('class'=>true, 'property'=>true, 'method'=>true, 'inherited'=>true, 'multiple'=>true)
@@ -42,7 +42,7 @@ class DocAnnotation extends Annotation implements IAnnotationParser
 {
     public $value;
 
-    public static function parseAnnotation($value)
+    public static function parseAnnotation(string $value): array
     {
         return array('value' => intval($value));
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace mindplay\test\Sample;
+namespace ElementaryFramework\Annotations\Test\Sample;
 
-use mindplay\annotations\Annotation;
+use ElementaryFramework\Annotations\Annotation;
 
 /**
  * @usage('class'=>true)

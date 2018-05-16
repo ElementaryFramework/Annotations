@@ -11,15 +11,15 @@
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\test\annotations;
+namespace ElementaryFramework\Annotations\Demo\Annotations;
 
 
-use mindplay\annotations\AnnotationManager;
+use ElementaryFramework\Annotations\AnnotationManager;
 
 abstract class Package
 {
     public static function register(AnnotationManager $annotationManager)
     {
-        $annotationManager->registry['required'] = 'mindplay\test\annotations\RequiredAnnotation';
+        $annotationManager->registerAnnotation('required', 'ElementaryFramework\Annotations\Demo\Annotations\RequiredAnnotation');
     }
 }

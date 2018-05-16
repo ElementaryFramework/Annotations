@@ -1,10 +1,10 @@
 <?php
-namespace mindplay\test\lib;
+namespace ElementaryFramework\Annotations\Test\lib;
 
 
-use mindplay\test\lib\ResultPrinter\CliResultPrinter;
-use mindplay\test\lib\ResultPrinter\ResultPrinter;
-use mindplay\test\lib\ResultPrinter\WebResultPrinter;
+use ElementaryFramework\Annotations\Test\lib\ResultPrinter\CliResultPrinter;
+use ElementaryFramework\Annotations\Test\lib\ResultPrinter\ResultPrinter;
+use ElementaryFramework\Annotations\Test\lib\ResultPrinter\WebResultPrinter;
 
 /**
  * This class implements a very simple test suite runner and code
