@@ -21,9 +21,10 @@
  */
 
 namespace ElementaryFramework\Annotations;
+use ElementaryFramework\Annotations\Exceptions\AnnotationException;
 
 /**
- * Thin, static class with shortcut methods for inspection of Annotations
+ * Thin, static class with shortcut methods for inspection of annotations
  *
  * Using this static wrapper is optional - if your application uses a service container
  * or a dependency injection container, you most likely want to configure an instance
@@ -34,29 +35,53 @@ abstract class Annotations
     /**
      * @var array Configuration for any public property of AnnotationManager.
      */
-    public static $config;
+    private static $_config;
 
     /**
      * @var AnnotationManager Singleton AnnotationManager instance
      */
-    private static $manager;
+    private static $_manager;
+
+    /**
+     * Sets a config value.
+     *
+     * @param string $key   The config key.
+     * @param mixed  $value The config value.
+     *
+     * @throws AnnotationException
+     */
+    public static function setConfig(string $key, $value)
+    {
+        switch ($key) {
+            case "autoload":
+            case "cache":
+            case "suffix":
+            case "namespace":
+            case "debug":
+                self::$_config[$key] = $value;
+                break;
+
+            default:
+                throw new AnnotationException("Invalid config key.");
+        }
+    }
 
     /**
      * @return AnnotationManager a singleton instance
      */
     public static function getManager()
     {
-        if (!isset(self::$manager)) {
-            self::$manager = new AnnotationManager;
+        if (!isset(self::$_manager)) {
+            self::$_manager = new AnnotationManager;
         }
 
-        if (\is_array(self::$config)) {
-            foreach (self::$config as $key => $value) {
-                self::$manager->$key = $value;
+        if (\is_array(self::$_config)) {
+            foreach (self::$_config as $key => $value) {
+                self::$_manager->$key = $value;
             }
         }
 
-        return self::$manager;
+        return self::$_manager;
     }
 
     /**
@@ -76,7 +101,7 @@ abstract class Annotations
     }
 
     /**
-     * Inspects class Annotations
+     * Inspects class annotations
      *
      * @see AnnotationManager::getClassAnnotations()
      *
@@ -93,7 +118,7 @@ abstract class Annotations
     }
 
     /**
-     * Inspects method Annotations
+     * Inspects method annotations
      *
      * @see AnnotationManager::getMethodAnnotations()
      *

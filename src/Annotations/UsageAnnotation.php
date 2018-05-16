@@ -23,32 +23,32 @@
 namespace ElementaryFramework\Annotations;
 
 /**
- * This Annotation is mandatory, and must be applied to all Annotations.
+ * This Annotation is mandatory, and must be applied to all annotations.
  */
 class UsageAnnotation extends Annotation
 {
     /**
-     * @var boolean Set this to TRUE for Annotations that may be applied to classes.
+     * @var boolean Set this to TRUE for annotations that may be applied to classes.
      */
     public $class = false;
 
     /**
-     * @var boolean Set this to TRUE for Annotations that may be applied to properties.
+     * @var boolean Set this to TRUE for annotations that may be applied to properties.
      */
     public $property = false;
 
     /**
-     * @var boolean Set this to TRUE for Annotations that may be applied to methods.
+     * @var boolean Set this to TRUE for annotations that may be applied to methods.
      */
     public $method = false;
 
     /**
-     * @var boolean $multiple Set this to TRUE for Annotations that allow multiple instances on the same member.
+     * @var boolean $multiple Set this to TRUE for annotations that allow multiple instances on the same member.
      */
     public $multiple = false;
 
     /**
-     * @var boolean $inherited Set this to TRUE for Annotations that apply to members of child classes.
+     * @var boolean $inherited Set this to TRUE for annotations that apply to members of child classes.
      */
     public $inherited = false;
 }
