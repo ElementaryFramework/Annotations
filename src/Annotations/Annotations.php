@@ -80,10 +80,10 @@ abstract class Annotations
      *
      * @see AnnotationManager::getClassAnnotations()
      *
-     * @param string|object $class
-     * @param string|null $type
+     * @param object $class The class name or instance.
+     * @param string $type  The name of the annotation.
      *
-     * @return array|Annotation[]
+     * @return IAnnotation[]
      *
      * @throws Exceptions\AnnotationException
      */
@@ -97,11 +97,11 @@ abstract class Annotations
      *
      * @see AnnotationManager::getMethodAnnotations()
      *
-     * @param $class
-     * @param string|null $method
-     * @param string|null $type
+     * @param object $class  The class name or instance.
+     * @param string $method The name of the method.
+     * @param string $type   The name of the annotation.
      *
-     * @return array
+     * @return IAnnotation[]
      *
      * @throws Exceptions\AnnotationException
      */
@@ -115,16 +115,63 @@ abstract class Annotations
      *
      * @see AnnotationManager::getPropertyAnnotations()
      *
-     * @param $class
-     * @param string|null $property
-     * @param string|null $type
+     * @param object $class    The class name or instance.
+     * @param string $property The name of the property.
+     * @param string $type     The name of the annotation.
      *
-     * @return array|IAnnotation[]
+     * @return IAnnotation[]
      *
      * @throws Exceptions\AnnotationException
      */
     public static function ofProperty($class, string $property = null, string $type = null): array
     {
         return self::getManager()->getPropertyAnnotations($class, $property, $type);
+    }
+
+    /**
+     * Checks if a class has the given annotation.
+     *
+     * @param object $class The class name or instance.
+     * @param string $type  The name of the annotation.
+     *
+     * @return bool
+     *
+     * @throws Exceptions\AnnotationException
+     */
+    public static function classHasAnnotation($class, string $type)
+    {
+        return count(self::ofClass($class, $type)) > 0;
+    }
+
+    /**
+     * Checks if a class method has the given annotation.
+     *
+     * @param object $class  The class name or instance.
+     * @param string $method The name of the method.
+     * @param string $type   The name of the annotation.
+     *
+     * @return bool
+     *
+     * @throws Exceptions\AnnotationException
+     */
+    public static function methodHasAnnotation($class, string $method, string $type)
+    {
+        return count(self::ofMethod($class, $method, $type)) > 0;
+    }
+
+    /**
+     * Checks if a class property has the given annotation.
+     *
+     * @param object $class    The class name or instance.
+     * @param string $property The name of the property.
+     * @param string $type     The name of the annotation.
+     *
+     * @return bool
+     *
+     * @throws Exceptions\AnnotationException
+     */
+    public static function propertyHasAnnotation($class, string $property, string $type)
+    {
+        return count(self::ofProperty($class, $property, $type)) > 0;
     }
 }
