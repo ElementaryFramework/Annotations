@@ -1,5 +1,15 @@
+# Visual Studio
+.vs/
+
+# Visual Studio Code
+.vscode/
+
 # Jetbrains
 .idea/
 
+# Composer
 vendor
+composer.lock
+
+# PHP Code Coverage
 clover.xml
