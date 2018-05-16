@@ -11,13 +11,13 @@
  * <https://github.com/mindplay-dk/php-annotations>
  */
 
-namespace mindplay\demo\annotations;
+namespace ElementaryFramework\Annotations\Demo\Annotations;
 
 
 use ElementaryFramework\Annotations\Annotation;
 
 /**
- * Abstract base class for validation annotations.
+ * Abstract base class for validation Annotations.
  */
 abstract class ValidationAnnotationBase extends Annotation
 {

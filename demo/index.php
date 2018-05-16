@@ -4,7 +4,7 @@ namespace mindplay\demo;
 use Composer\Autoload\ClassLoader;
 use ElementaryFramework\Annotations\AnnotationCache;
 use ElementaryFramework\Annotations\Annotations;
-use mindplay\demo\annotations\Package;
+use ElementaryFramework\Annotations\Demo\Annotations\Package;
 
 ## Configure a simple auto-loader
 $vendor_path = dirname(__DIR__) . '/vendor';
@@ -23,11 +23,11 @@ $auto_loader->register();
 ## Configure the cache-path. The static `Annotations` class will configure any public
 ## properties of `AnnotationManager` when it creates it. The `AnnotationManager::$cachePath`
 ## property is a path to a writable folder, where the `AnnotationManager` caches parsed
-## annotations from individual source code files.
+## Annotations from individual source code files.
 
 Annotations::$config['cache'] = new AnnotationCache(__DIR__ . '/runtime');
 
-## Register demo annotations.
+## Register demo Annotations.
 Package::register(Annotations::getManager());
 
 ## For this example, we're going to generate a simple form that allows us to edit a `Person`
@@ -35,7 +35,7 @@ Package::register(Annotations::getManager());
 ## which will enable us to make decisions (at run-time) about how to display each field,
 ## how to parse the values posted back from the form, and how to validate the input.
 ##
-## Note the use of standard PHP-DOC annotations, such as `@var string` - this metadata is
+## Note the use of standard PHP-DOC Annotations, such as `@var string` - this metadata is
 ## traditionally useful both as documentation to developers, and as hints for an IDE. In
 ## this example, we're going to use that same information as advice to our components, at
 ## run-time, to help them establish defaults and make sensible decisions about how to
@@ -264,7 +264,7 @@ class Form
     }
 
     ## This helper-method is similar to the one we defined for the widget base
-    ## class, but fetches annotations for the specified property.
+    ## class, but fetches Annotations for the specified property.
 
     private function getMetadata($property, $type, $name, $default = null)
     {
